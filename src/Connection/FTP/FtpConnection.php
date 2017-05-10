@@ -8,12 +8,35 @@ class FtpConnection implements ConnectionInterface
 {
     const DEFAULT_FTP_PORT = 21;
 
+    /**
+     * @var string
+     */
     private $host;
+    /**
+     * @var string
+     */
     private $login;
+    /**
+     * @var string
+     */
     private $password;
+
+    /**
+     * @var int
+     */
     private $port;
+
+    /**
+     * @var resource
+     */
     private $resource;
 
+    /**
+     * @param string $host
+     * @param string $login
+     * @param string $password
+     * @param int $port
+     */
     public function __construct($host, $login, $password, $port = self::DEFAULT_FTP_PORT)
     {
         $this->host = $host;
@@ -42,6 +65,10 @@ class FtpConnection implements ConnectionInterface
         }
     }
 
+    /**
+     * @return resource
+     * @throws ConnectionException
+     */
     public function getConnectionResource()
     {
         if (!$this->isConnectionEstablished()) {
@@ -51,11 +78,17 @@ class FtpConnection implements ConnectionInterface
         return $this->resource;
     }
 
+    /**
+     * @return string
+     */
     public function getHost()
     {
         return $this->host;
     }
 
+    /**
+     * @return bool
+     */
     public function isConnectionEstablished()
     {
         if (is_null($this->resource)) {

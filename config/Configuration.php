@@ -5,6 +5,9 @@ class Configuration
 {
     const FTP = "FTP";
 
+    /**
+     * @var array
+     */
     private static $config = array(
         self::FTP => array(
             "host" => "",
@@ -13,8 +16,17 @@ class Configuration
         )
     );
 
+    /**
+     * @param string $key
+     *
+     * @return array
+     * @throws ConfigurationValueNotFound
+     */
     public static function getConfigValueForFTP($key)
     {
-        return self::$config[self::FTP][$key];
+        if (isset(self::$config[self::FTP][$key])) {
+            return self::$config[self::FTP][$key];
+        }
+        throw ConfigurationValueNotFound::configurationValueNotFound($key);
     }
 }

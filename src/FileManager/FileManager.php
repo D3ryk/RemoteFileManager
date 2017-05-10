@@ -6,9 +6,20 @@ use RemoteFileManager\File\FileFactoryInterface;
 
 abstract class FileManager implements FileManagerInterface
 {
+    /**
+     * @var ConnectionInterface
+     */
     protected $connection;
+
+    /**
+     * @var FileFactoryInterface
+     */
     protected $fileFactory;
 
+    /**
+     * @param ConnectionInterface $connection
+     * @param FileFactoryInterface $fileFactory
+     */
     public function __construct(ConnectionInterface $connection, FileFactoryInterface $fileFactory)
     {
         $this->connection = $connection;
@@ -16,11 +27,17 @@ abstract class FileManager implements FileManagerInterface
         $this->establishConnection();
     }
 
+    /**
+     * @return ConnectionInterface
+     */
     public function getConnection()
     {
         return $this->connection;
     }
 
+    /**
+     * @return FileFactoryInterface
+     */
     public function getFileFactory()
     {
         return $this->fileFactory;

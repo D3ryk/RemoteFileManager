@@ -8,6 +8,11 @@ use RemoteFileManager\FileManager\FileManagerException;
 class FtpFileManager extends FileManager
 {
 
+    /**
+     * @param File $directory
+     *
+     * @return array[] File
+     */
     public function listFiles(File $directory)
     {
         $list = ftp_nlist($this->getConnection()->getConnectionResource(), $directory->getFullName());
@@ -18,16 +23,30 @@ class FtpFileManager extends FileManager
         return $this->getFileFactory()->createFileList($list);
     }
 
+    /**
+     * @param File $file
+     *
+     * @return bool
+     */
     public function deleteFile(File $file)
     {
         return ftp_delete($this->getConnection()->getConnectionResource(), $file->getFullName());
     }
 
+    /**
+     * @param File $oldFile
+     * @param File $newFile
+     *
+     * @return bool
+     */
     public function renameFile(File $oldFile, File $newFile)
     {
         return ftp_rename($this->getConnection()->getConnectionResource(), $oldFile->getFullName(), $newFile->getFileName());
     }
 
+    /**
+     * @return bool|File
+     */
     public function getWorkingDir()
     {
         $pwd = ftp_pwd($this->getConnection()->getConnectionResource());;
@@ -37,6 +56,12 @@ class FtpFileManager extends FileManager
         return $this->getFileFactory()->creteFileFromFullPath($pwd);
     }
 
+    /**
+     * @param File $file
+     *
+     * @return int
+     * @throws FileManagerException
+     */
     public function getModificationTime(File $file)
     {
         $modTime = ftp_mdtm($this->getConnection()->getConnectionResource(), $file->getFullName());
@@ -46,6 +71,9 @@ class FtpFileManager extends FileManager
         return $modTime;
     }
 
+    /**
+     * @param bool $passiveMode
+     */
     public function setPassiveMode($passiveMode)
     {
         ftp_pasv($this->getConnection()->getConnectionResource(), $passiveMode);
